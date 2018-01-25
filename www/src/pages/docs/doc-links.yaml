@@ -56,7 +56,7 @@
       link: /docs/api-proxy/
     - title: Using CSS-in-JS library Glamor
       link: /docs/glamor/
-    - title: Using CSS-in-JS library Styled Components 
+    - title: Using CSS-in-JS library Styled Components
       link: /docs/styled-components/
     - title: Adding Markdown Pages
       link: /docs/adding-markdown-pages/
@@ -82,6 +82,8 @@
       link: /docs/node-apis/
     - title: Gatsby SSR APIs
       link: /docs/ssr-apis/
+    - title: Gatsby GraphQL Interface
+      link: /docs/graphql-interface/
 - title: Contributing
   items:
     - title: How to Contribute
