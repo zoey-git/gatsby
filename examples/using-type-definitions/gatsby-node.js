@@ -7,7 +7,6 @@
 // You can delete this file if you're not using it
 
 exports.addTypeDefs = ({ addTypeDefs }) => {
-  console.log('ADD TYPE DEFS')
   const typeDefs = `
     type BlogJson implements Node {
       title: String!
@@ -17,5 +16,4 @@ exports.addTypeDefs = ({ addTypeDefs }) => {
     }
   `
   addTypeDefs(typeDefs)
-
 }
