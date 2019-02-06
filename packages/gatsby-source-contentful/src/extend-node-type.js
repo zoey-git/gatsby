@@ -210,7 +210,7 @@ const resolveFluid = (image, options) => {
   const srcSet = sortedSizes
     .map(width => {
       const h = Math.round(width / desiredAspectRatio)
-      return `${createUrl(image.file.url, {
+      return `${createUrl(baseUrl, {
         ...options,
         width,
         height: h,
@@ -253,7 +253,7 @@ const resolveResize = (image, options) => {
     pickedHeight = pickedWidth / aspectRatio
   }
   return {
-    src: createUrl(image.file.url, options),
+    src: createUrl(baseUrl, options),
     width: Math.round(pickedWidth),
     height: Math.round(pickedHeight),
     aspectRatio,
