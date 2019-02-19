@@ -268,7 +268,11 @@ module.exports = (
         const ast = await getAST(markdownNode)
         const headings = select(ast, `heading`).map(heading => {
           return {
-            value: _.first(select(heading, `text`).map(text => text.value)),
+            value: heading.children
+              .map(node =>
+                [`text`, `inlineCode`].includes(node.type) ? node.value : null
+              )
+              .join(''),
             depth: heading.depth,
           }
         })
