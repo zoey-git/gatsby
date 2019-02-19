@@ -268,7 +268,7 @@ module.exports = (
         const ast = await getAST(markdownNode)
         const headings = select(ast, `heading`).map(heading => {
           return {
-            value: _.first(select(heading, `text`).map(text => text.value)),
+            value: _.first(select(heading, `text, inlineCode`).map(text => text.value)),
             depth: heading.depth,
           }
         })
