@@ -10,7 +10,7 @@ image: ''
 showImageInArticle: false
 
 ---
-Below is a transcript of an interview with Kyle Mathews and Chris Biscardi on Reactiflux. Read on to hear Kyle and Chris answer questions about Gatsby. [Original post is here](https://www.reactiflux.com/transcripts/gatsby-team/ "Reactiflux"). 
+Below is a transcript of an interview with Kyle Mathews and Chris Biscardi on Reactiflux. Read on to hear Kyle and Chris answer the most burning questions about Gatsby. [Original post is here](https://www.reactiflux.com/transcripts/gatsby-team/ "Reactiflux"). 
 
 Date of interview: December 13 2018
 
