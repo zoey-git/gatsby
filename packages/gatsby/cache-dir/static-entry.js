@@ -1,5 +1,6 @@
 const React = require(`react`)
 const fs = require(`fs`)
+const { join } = require(`path`)
 const { renderToString, renderToStaticMarkup } = require(`react-dom/server`)
 const { ServerLocation, Router, isRedirect } = require(`@reach/router`)
 const { get, merge, isObject, flatten, uniqBy } = require(`lodash`)
@@ -309,7 +310,7 @@ export default (pagePath, callback) => {
             data-href={`${__PATH_PREFIX__}/${style.name}`}
             dangerouslySetInnerHTML={{
               __html: fs.readFileSync(
-                require.resolve(`gatsby-public-dir/${style.name}`),
+                join(__PUBLIC_PATH__, style.name),
                 `utf-8`
               ),
             }}
