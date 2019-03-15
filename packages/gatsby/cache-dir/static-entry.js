@@ -109,11 +109,15 @@ export default (pagePath, callback) => {
 
   let dataAndContext = {}
   if (page.jsonName in dataPaths) {
-    const pathToJsonData = `../public/` + dataPaths[page.jsonName]
+    const pathToJsonData = `../public/${dataPaths[page.jsonName]}`
     try {
-      dataAndContext = require(`gatsby-public-dir/static/d/${
-        dataPaths[page.jsonName]
-      }.json`)
+      dataAndContext = JSON.parse(
+        fs.readFileSync(
+          require.resolve(
+            `gatsby-public-dir/static/d/${dataPaths[page.jsonName]}.json`
+          )
+        )
+      )
     } catch (e) {
       console.log(`error`, pathToJsonData, e)
       process.exit()
