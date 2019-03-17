@@ -19,6 +19,8 @@ module.exports = (htmlComponentRendererPath, pages, activity) =>
       NODE_ENV: process.env.NODE_ENV,
       gatsby_executing_command: process.env.gatsby_executing_command,
       gatsby_log_level: process.env.gatsby_log_level,
+      NODE_PATH: process.env.NODE_PATH,
+      GATSBY_BUILD_DIR: process.env.GATSBY_BUILD_DIR,
     })
 
     const start = process.hrtime()

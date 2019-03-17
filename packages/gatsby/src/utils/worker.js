@@ -19,6 +19,10 @@ export function renderHTML({ htmlComponentRendererPath, paths, envVars }) {
   // for modules that aren't bundled by webpack.
   envVars.forEach(([key, value]) => (process.env[key] = value))
 
+  // if process.env.NODE_PATH is set, you need to update the directories
+  // node is looking for to match the parent.
+  require(`module`).Module._initPaths()
+
   return Promise.map(
     paths,
     path =>
