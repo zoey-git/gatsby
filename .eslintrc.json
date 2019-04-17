@@ -45,7 +45,7 @@
     "no-console": "off",
     "no-inner-declarations": "off",
     "prettier/prettier": "error",
-    "quotes": ["error", "backtick"],
+    "quotes": ["error", "single"],
     "react/display-name": "off",
     "react/jsx-key": "warn",
     "react/no-unescaped-entities": "off",

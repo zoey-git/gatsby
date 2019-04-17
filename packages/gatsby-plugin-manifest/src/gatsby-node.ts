@@ -1,8 +1,8 @@
-import fs from "fs"
-import path from "path"
-import sharp from "sharp"
-import createContentDigest from "gatsby/dist/utils/create-content-digest"
-import { defaultIcons, doesIconExist, addDigestToPath } from "./common"
+import fs from 'fs'
+import path from 'path'
+import sharp from 'sharp'
+import createContentDigest from 'gatsby/dist/utils/create-content-digest'
+import { defaultIcons, doesIconExist, addDigestToPath } from './common'
 
 sharp.simd(true)
 
@@ -10,20 +10,20 @@ try {
   // Handle Sharp's concurrency based on the Gatsby CPU count
   // See: http://sharp.pixelplumbing.com/en/stable/api-utility/#concurrency
   // See: https://www.gatsbyjs.org/docs/multi-core-builds/
-  const cpuCoreCount = require(`gatsby/dist/utils/cpu-core-count`)
+  const cpuCoreCount = require('gatsby/dist/utils/cpu-core-count')
   sharp.concurrency(cpuCoreCount())
 } catch {
   // if above throws error this probably means that used Gatsby version
   // doesn't support cpu-core-count utility.
 }
 
-function generateIcons(icons, srcIcon) {
+function generateIcons(icons: Array<Object>, srcIcon: string) {
   return Promise.all(
     icons.map(async icon => {
       const size = parseInt(
-        icon.sizes.substring(0, icon.sizes.lastIndexOf(`x`))
+        icon.sizes.substring(0, icon.sizes.lastIndexOf('x'))
       )
-      const imgPath = path.join(`public`, icon.src)
+      const imgPath = path.join('public', icon.src)
 
       // For vector graphics, instruct sharp to use a pixel density
       // suitable for the resolution we're rasterizing to.
@@ -35,7 +35,7 @@ function generateIcons(icons, srcIcon) {
         .resize({
           width: size,
           height: size,
-          fit: `contain`,
+          fit: 'contain',
           background: { r: 255, g: 255, b: 255, alpha: 0 },
         })
         .toFile(imgPath)
@@ -55,7 +55,7 @@ exports.onPostBootstrap = async ({ reporter }, pluginOptions) => {
   delete manifest.icon_options
   delete manifest.include_favicon
 
-  const activity = reporter.activityTimer(`Build manifest and related icons`)
+  const activity = reporter.activityTimer('Build manifest and related icons')
   activity.start()
 
   // If icons are not manually defined, use the default icon set.
@@ -76,7 +76,7 @@ exports.onPostBootstrap = async ({ reporter }, pluginOptions) => {
   // Determine destination path for icons.
   let paths = {}
   manifest.icons.forEach(icon => {
-    const iconPath = path.join(`public`, path.dirname(icon.src))
+    const iconPath = path.join('public', path.dirname(icon.src))
     if (!paths[iconPath]) {
       const exists = fs.existsSync(iconPath)
       //create destination directory if it doesn't exist
@@ -101,22 +101,22 @@ exports.onPostBootstrap = async ({ reporter }, pluginOptions) => {
     if (metadata.width !== metadata.height) {
       reporter.warn(
         `The icon(${icon}) you provided to 'gatsby-plugin-manifest' is not square.\n` +
-          `The icons we generate will be square and for the best results we recommend you provide a square icon.\n`
+          'The icons we generate will be square and for the best results we recommend you provide a square icon.\n'
       )
     }
 
     //add cache busting
     const cacheMode =
-      typeof pluginOptions.cache_busting_mode !== `undefined`
+      typeof pluginOptions.cache_busting_mode !== 'undefined'
         ? pluginOptions.cache_busting_mode
-        : `query`
+        : 'query'
 
     //if cacheBusting is being done via url query icons must be generated before cache busting runs
-    if (cacheMode === `query`) {
+    if (cacheMode === 'query') {
       await generateIcons(manifest.icons, icon)
     }
 
-    if (cacheMode !== `none`) {
+    if (cacheMode !== 'none') {
       const iconDigest = createContentDigest(fs.readFileSync(icon))
 
       manifest.icons.forEach(icon => {
@@ -125,14 +125,14 @@ exports.onPostBootstrap = async ({ reporter }, pluginOptions) => {
     }
 
     //if file names are being modified by cacheBusting icons must be generated after cache busting runs
-    if (cacheMode !== `query`) {
+    if (cacheMode !== 'query') {
       await generateIcons(manifest.icons, icon)
     }
   }
 
   //Write manifest
   fs.writeFileSync(
-    path.join(`public`, `manifest.webmanifest`),
+    path.join('public', 'manifest.webmanifest'),
     JSON.stringify(manifest)
   )
 

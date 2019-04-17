@@ -121,6 +121,7 @@
     "terser-webpack-plugin": "^1.2.2",
     "true-case-path": "^1.0.3",
     "type-of": "^2.0.1",
+    "typescript": "^3.4.3",
     "url-loader": "^1.0.1",
     "util.promisify": "^1.0.0",
     "uuid": "^3.1.0",
@@ -137,6 +138,8 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/runtime": "^7.0.0",
+    "@types/lodash": "^4.14.123",
+    "@types/node": "^11.13.4",
     "babel-preset-gatsby-package": "^0.1.4",
     "cross-env": "^5.1.4",
     "rimraf": "^2.6.1"
