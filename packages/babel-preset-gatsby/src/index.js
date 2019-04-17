@@ -60,6 +60,7 @@ module.exports = function preset(_, options = {}) {
           development: stage === `develop`,
         },
       ],
+      resolve(`@babel/preset-typescript`),
     ],
     plugins: [
       [
@@ -70,6 +71,7 @@ module.exports = function preset(_, options = {}) {
       ],
       resolve(`babel-plugin-macros`),
       resolve(`@babel/plugin-syntax-dynamic-import`),
+      resolve(`@babel/plugin-proposal-object-rest-spread`),
       [
         resolve(`@babel/plugin-transform-runtime`),
         {
