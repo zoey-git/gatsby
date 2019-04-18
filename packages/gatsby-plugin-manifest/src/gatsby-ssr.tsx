@@ -1,43 +1,44 @@
-import React from "react"
-import { withPrefix } from "gatsby"
-import createContentDigest from "gatsby/dist/utils/create-content-digest"
-import { defaultIcons, addDigestToPath } from "./common.js"
-import fs from "fs"
+import React from 'react'
+import { withPrefix } from 'gatsby'
+import createContentDigest from 'gatsby/dist/utils/create-content-digest'
+import { defaultIcons, addDigestToPath } from './common.js'
+import fs from 'fs'
 
-let iconDigest = null
+let iconDigest: string = ''
 
-exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
+exports.onRenderBody = (
+  { setHeadComponents }: any,
+  pluginOptions: ManifestPluginOptions
+) => {
   // We use this to build a final array to pass as the argument to setHeadComponents at the end of onRenderBody.
-  let headComponents = []
-
-  const srcIconExists = !!pluginOptions.icon
+  let headComponents: Array<JSX.Element> = []
 
   const icons = pluginOptions.icons || defaultIcons
-  const legacy =
-    typeof pluginOptions.legacy !== `undefined` ? pluginOptions.legacy : true
+  const legacy: boolean =
+    typeof pluginOptions.legacy !== 'undefined' ? pluginOptions.legacy : true
 
   const cacheBusting =
-    typeof pluginOptions.cache_busting_mode !== `undefined`
+    typeof pluginOptions.cache_busting_mode !== 'undefined'
       ? pluginOptions.cache_busting_mode
-      : `query`
+      : 'query'
 
   // If icons were generated, also add a favicon link.
-  if (srcIconExists) {
+  if (pluginOptions.icon) {
     const favicon = icons && icons.length ? icons[0].src : null
 
-    if (cacheBusting !== `none`) {
+    if (cacheBusting !== 'none') {
       iconDigest = createContentDigest(fs.readFileSync(pluginOptions.icon))
     }
 
     const insertFaviconLinkTag =
-      typeof pluginOptions.include_favicon !== `undefined`
+      typeof pluginOptions.include_favicon !== 'undefined'
         ? pluginOptions.include_favicon
         : true
 
     if (favicon && insertFaviconLinkTag) {
       headComponents.push(
         <link
-          key={`gatsby-plugin-manifest-icon-link`}
+          key={'gatsby-plugin-manifest-icon-link'}
           rel="shortcut icon"
           href={withPrefix(addDigestToPath(favicon, iconDigest, cacheBusting))}
         />
@@ -48,9 +49,9 @@ exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
   // Add manifest link tag.
   headComponents.push(
     <link
-      key={`gatsby-plugin-manifest-link`}
+      key={'gatsby-plugin-manifest-link'}
       rel="manifest"
-      href={withPrefix(`/manifest.webmanifest`)}
+      href={withPrefix('/manifest.webmanifest')}
       crossOrigin={pluginOptions.crossOrigin}
     />
   )
@@ -58,14 +59,14 @@ exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
   // The user has an option to opt out of the theme_color meta tag being inserted into the head.
   if (pluginOptions.theme_color) {
     const insertMetaTag =
-      typeof pluginOptions.theme_color_in_head !== `undefined`
+      typeof pluginOptions.theme_color_in_head !== 'undefined'
         ? pluginOptions.theme_color_in_head
         : true
 
     if (insertMetaTag) {
       headComponents.push(
         <meta
-          key={`gatsby-plugin-manifest-meta`}
+          key={'gatsby-plugin-manifest-meta'}
           name="theme-color"
           content={pluginOptions.theme_color}
         />
@@ -74,7 +75,7 @@ exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
   }
 
   if (legacy) {
-    const iconLinkTags = icons.map(icon => (
+    const iconLinkTags: JSX.Element[] = icons.map(icon => (
       <link
         key={`gatsby-plugin-manifest-apple-touch-icon-${icon.sizes}`}
         rel="apple-touch-icon"
@@ -83,7 +84,7 @@ exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
           addDigestToPath(
             icon.src,
             iconDigest,
-            srcIconExists ? cacheBusting : `none`
+            pluginOptions.icon ? cacheBusting : 'none'
           )
         )}
       />

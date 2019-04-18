@@ -1,12 +1,6 @@
 import fs from 'fs'
 import sysPath from 'path'
 
-interface IconConfig {
-  src: string
-  sizes: string
-  type: string
-}
-
 // default icons for generating icons
 export const defaultIcons: Array<IconConfig> = [
   {
@@ -68,17 +62,15 @@ export function doesIconExist(srcIcon: string) {
   }
 }
 
-enum Method {
-  name = 'name',
-  query = 'query',
-  none = 'none',
-}
-
 /**
  * @param path The generic path to an icon
  * @param digest The digest of the icon provided in the plugin's options.
  */
-export function addDigestToPath(path: string, digest: string, method: Method) {
+export function addDigestToPath(
+  path: string,
+  digest: string,
+  method: CacheBustingMethod
+) {
   if (method === 'name') {
     const parsedPath = sysPath.parse(path)
 

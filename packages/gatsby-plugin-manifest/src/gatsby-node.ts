@@ -17,7 +17,7 @@ try {
   // doesn't support cpu-core-count utility.
 }
 
-function generateIcons(icons: Array<Object>, srcIcon: string) {
+function generateIcons(icons: Array<IconConfig>, srcIcon: string) {
   return Promise.all(
     icons.map(async icon => {
       const size = parseInt(
@@ -32,7 +32,7 @@ function generateIcons(icons: Array<Object>, srcIcon: string) {
       const density = Math.min(2400, Math.max(1, size))
 
       return sharp(srcIcon, { density })
-        .resize({
+        .resize(null, null, {
           width: size,
           height: size,
           fit: 'contain',
@@ -43,7 +43,10 @@ function generateIcons(icons: Array<Object>, srcIcon: string) {
   )
 }
 
-exports.onPostBootstrap = async ({ reporter }, pluginOptions) => {
+exports.onPostBootstrap = async (
+  { reporter }: any,
+  pluginOptions: ManifestPluginOptions
+) => {
   const { icon, ...manifest } = pluginOptions
 
   // Delete options we won't pass to the manifest.webmanifest.
@@ -74,9 +77,11 @@ exports.onPostBootstrap = async ({ reporter }, pluginOptions) => {
   }
 
   // Determine destination path for icons.
-  let paths = {}
+
+  let paths: pathObject = {}
+
   manifest.icons.forEach(icon => {
-    const iconPath = path.join('public', path.dirname(icon.src))
+    const iconPath: string = path.join('public', path.dirname(icon.src))
     if (!paths[iconPath]) {
       const exists = fs.existsSync(iconPath)
       //create destination directory if it doesn't exist
@@ -106,7 +111,7 @@ exports.onPostBootstrap = async ({ reporter }, pluginOptions) => {
     }
 
     //add cache busting
-    const cacheMode =
+    const cacheMode: CacheBustingMethod =
       typeof pluginOptions.cache_busting_mode !== 'undefined'
         ? pluginOptions.cache_busting_mode
         : 'query'
