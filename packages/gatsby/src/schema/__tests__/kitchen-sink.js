@@ -1,7 +1,13 @@
 // @flow
 
 const { SchemaComposer } = require(`graphql-compose`)
-const { graphql } = require(`graphql`)
+const {
+  graphql,
+  GraphQLSchema,
+  GraphQLNonNull,
+  GraphQLList,
+  GraphQLObjectType,
+} = require(`graphql`)
 const { store } = require(`../../redux`)
 const { build } = require(`../index`)
 const fs = require(`fs-extra`)
@@ -14,7 +20,7 @@ jest.mock(`../../utils/api-runner-node`)
 const apiRunnerNode = require(`../../utils/api-runner-node`)
 
 // XXX(freiksenet): Expand
-describe(`Kichen sink schema test`, () => {
+describe(`Kitchen sink schema test`, () => {
   let schema
 
   const runQuery = query =>
@@ -55,10 +61,12 @@ describe(`Kichen sink schema test`, () => {
         }
       `,
     })
-    store.dispatch({
-      type: `ADD_THIRD_PARTY_SCHEMA`,
-      payload: buildThirdPartySchema(),
-    })
+    buildThirdPartySchemas().forEach(schema =>
+      store.dispatch({
+        type: `ADD_THIRD_PARTY_SCHEMA`,
+        payload: schema,
+      })
+    )
     await build({})
     schema = store.getState().schema
   })
@@ -136,7 +144,7 @@ describe(`Kichen sink schema test`, () => {
   })
 })
 
-const buildThirdPartySchema = () => {
+const buildThirdPartySchemas = () => {
   const schemaComposer = new SchemaComposer()
   schemaComposer.addTypeDefs(`
     type ThirdPartyStuff {
@@ -209,7 +217,31 @@ const buildThirdPartySchema = () => {
   schemaComposer.addSchemaMustHaveType(
     schemaComposer.getOTC(`ThirdPartyStuff3`)
   )
-  return schemaComposer.buildSchema()
+
+  // Query type with non-default name
+  const RootQueryType = new GraphQLObjectType({
+    name: `RootQueryType`,
+    fields: () => {
+      return {
+        query: { type: RootQueryType },
+        manyQueries: {
+          type: new GraphQLNonNull(new GraphQLList(RootQueryType)),
+        },
+        nested: { type: Nested },
+      }
+    },
+  })
+  const Nested = new GraphQLObjectType({
+    name: `Nested`,
+    fields: () => {
+      return {
+        query: { type: RootQueryType },
+      }
+    },
+  })
+  const schema = new GraphQLSchema({ query: RootQueryType })
+
+  return [schemaComposer.buildSchema(), schema]
 }
 
 const mockSetFieldsOnGraphQLNodeType = async ({ type: { name } }) => {
