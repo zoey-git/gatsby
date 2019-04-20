@@ -7,6 +7,7 @@ const {
   GraphQLNonNull,
   GraphQLList,
   GraphQLObjectType,
+  getNamedType,
 } = require(`graphql`)
 const { store } = require(`../../redux`)
 const { build } = require(`../index`)
@@ -141,6 +142,18 @@ describe(`Kitchen sink schema test`, () => {
         }
     `)
     ).toMatchSnapshot()
+  })
+
+  it(`correctly resolves nested Query types from third-party types`, () => {
+    const queryFields = schema.getQueryType().getFields()
+    ;[`relay`, `relay2`, `query`, `manyQueries`].forEach(fieldName =>
+      expect(getNamedType(queryFields[fieldName].type)).toBe(
+        schema.getQueryType()
+      )
+    )
+    expect(schema.getType(`Nested`).getFields().query.type).toBe(
+      schema.getQueryType()
+    )
   })
 })
 
