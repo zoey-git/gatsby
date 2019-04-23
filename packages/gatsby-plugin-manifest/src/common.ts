@@ -1,6 +1,11 @@
 import fs from 'fs'
 import sysPath from 'path'
 
+import {
+  IconConfig,
+  CacheBustingMethod,
+} from 'gatsby-plugin-manifest/types/common'
+
 // default icons for generating icons
 export const defaultIcons: Array<IconConfig> = [
   {

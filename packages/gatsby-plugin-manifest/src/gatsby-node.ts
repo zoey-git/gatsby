@@ -4,6 +4,13 @@ import sharp from 'sharp'
 import createContentDigest from 'gatsby/dist/utils/create-content-digest'
 import { defaultIcons, doesIconExist, addDigestToPath } from './common'
 
+import {
+  IconConfig,
+  CacheBustingMethod,
+  ManifestPluginOptions,
+  pathObject,
+} from 'gatsby-plugin-manifest/types/common'
+
 sharp.simd(true)
 
 try {

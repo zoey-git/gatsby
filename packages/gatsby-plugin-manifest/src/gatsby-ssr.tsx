@@ -1,7 +1,8 @@
 import React from 'react'
 import { withPrefix } from 'gatsby'
 import createContentDigest from 'gatsby/dist/utils/create-content-digest'
-import { defaultIcons, addDigestToPath } from './common.js'
+import { defaultIcons, addDigestToPath } from './common'
+import { ManifestPluginOptions } from 'gatsby-plugin-manifest/types/common'
 import fs from 'fs'
 
 let iconDigest: string = ''

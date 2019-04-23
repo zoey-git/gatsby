@@ -37,7 +37,10 @@ function preset(context, options = {}) {
         ),
       ],
       [r('@babel/preset-react'), { development: !PRODUCTION }],
-      r('@babel/preset-typescript'),
+      [r('@babel/preset-typescript'), {
+        isTSX: true,
+        allExtensions: true,
+      }]
     ],
     plugins: [
       r('@babel/plugin-proposal-class-properties'),

@@ -1,7 +1,12 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    // "declaration": true
+    "allowJs": false,
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outFile": "gatsby-plugin-manifest",
+    "typeRoots": ["./types"]
   },
-  "include": ["./src"]
+  "include": ["./src", "./types"]
 }
