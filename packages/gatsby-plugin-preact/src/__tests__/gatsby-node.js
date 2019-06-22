@@ -12,7 +12,6 @@ describe(`gatsby-plugin-preact`, () => {
         alias: {
           react: `preact/compat`,
           "react-dom": `preact/compat`,
-          "react-dom/server": `preact/compat`,
         },
       },
     })
