@@ -136,6 +136,8 @@
               link: /docs/static-query/
             - title: Querying Data in Components with the useStaticQuery Hook
               link: /docs/use-static-query/
+            - title: Static vs Page Queries
+              link: /docs/static-vs-page-queries/
             - title: Using GraphQL Fragments
               link: /docs/using-fragments/
             - title: Creating Slugs for Pages
@@ -442,8 +444,6 @@
               link: /docs/query-extraction/
             - title: Query Execution
               link: /docs/query-execution/
-            - title: Normal vs StaticQueries
-              link: /docs/static-vs-normal-queries/
         - title: Write out Pages
           link: /docs/write-pages/
         - title: Webpack and SSR
