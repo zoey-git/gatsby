@@ -348,3 +348,4 @@ If you want to go further, here are some more advanced things you can do using P
 - Using a [helper function](https://prismic.io/docs/reactjs/getting-started/prismic-gatsby#27_0-using-the-html-serializer) to change links inside rich text fields to Link components.
 
 You can read more about it in [Prismic's Gatsby documentation](https://prismic.io/docs/reactjs/getting-started/prismic-gatsby), build your [own full featured blog](https://user-guides.prismic.io/examples/gatsby-js-samples/sample-blog-with-api-based-cms-gatsbyjs) where you can try out Slices.
+
