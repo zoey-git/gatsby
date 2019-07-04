@@ -8,7 +8,7 @@ Query Execution is kicked off by bootstrap by calling [page-query-runner.js runI
 
 - [page-query-runner.js](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby/src/internal-plugins/query-runner/query-queue.js)
 - [query-queue.js](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby/src/internal-plugins/query-runner/query-queue.js)
-- [query-runner.js](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby/src/internal-plugins/query-runner/query-runner.js)
+- [query-runner.js](https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby/src/query/query-runner.js)
 
 Here's an overview of how it all relates:
 
