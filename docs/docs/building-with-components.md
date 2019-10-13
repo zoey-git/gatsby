@@ -36,6 +36,8 @@ A basic directory structure of a project might look like this:
 ├── package.json
 └── src
     ├── html.jsx
+    ├── components
+    │   ├── layout.jsx
     ├── pages
     │   ├── index.jsx
     │   └── posts
@@ -114,10 +116,18 @@ export const pageQuery = graphql`
 `
 ```
 
+### Non-page components
+
+A Non-page component is one that's embedded inside some other component, forming a component hierarchy. An example would be a Header component that's included in multiple page components.
+Gatsby uses GraphQL to enable components to declare the data they need. Using the [StaticQuery](/docs/static-query/) component or [useStaticQuery hook](/docs/use-static-query/), you can colocate a non-page component with its data.
+
+### Layout components
+
+A [layout component](/docs/layout-components/) in Gatsby is a special type of non-page component that's typically reused on multiple pages, providing common styles and markup and wrapping child elements. Some examples of content that would be integrated in a layout component include header and footer components, global CSS includes, site metadata fetched with GraphQL, and more.
+
 ### HTML component
 
-`src/html.jsx` is responsible for everything other than where Gatsby lives in
-the `<body />`.
+`src/html.jsx` is responsible for everything other than where Gatsby lives in the `<body />`.
 
 In this file, you can modify the `<head>` metadata and general structure of the
 document and add external links.
@@ -173,8 +183,3 @@ These are examples of the different ways React components are used in Gatsby
 sites. To see full working examples, check out the
 [examples directory](https://github.com/gatsbyjs/gatsby/tree/master/examples) in
 the Gatsby repo.
-
-### Non-page components
-
-A Non-page component is one that's embedded inside some other component, forming a component hierarchy. An example would be a Header component that's included in multiple page components.
-Gatsby uses GraphQL to enable components to declare the data they need. Using the [StaticQuery](/docs/static-query/) component or [useStaticQuery hook](/docs/use-static-query/), you can colocate a non-page component with its data.
