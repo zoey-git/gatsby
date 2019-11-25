@@ -11,26 +11,41 @@ const { processFile } = require(`./process-file`)
  * @property {object} pluginOptions
  */
 
+const breath = () =>
+  new Promise(resolve => {
+    setImmediate(() => {
+      setImmediate(() => {
+        resolve()
+      })
+    })
+  })
+
 /**
  * the queue concurrency is 1 as we only want to transform 1 file at a time.
  * @param {(job: WorkerInput, callback: Function) => undefined} task
  */
-const q = queue(({ inputPaths, outputDir, args }, callback) => {
-  Promise.all(
-    processFile(
-      inputPaths[0],
-      args.contentDigest,
-      args.operations.map(operation => {
-        return {
-          outputPath: path.join(outputDir, operation.outputPath),
-          args: operation.transforms,
-        }
-      }),
-      args.pluginOptions
+const q = queue(async ({ inputPaths, outputDir, args }, callback) => {
+  try {
+    await Promise.all(
+      processFile(
+        inputPaths[0],
+        args.contentDigest,
+        args.operations.map(operation => {
+          return {
+            outputPath: path.join(outputDir, operation.outputPath),
+            args: operation.transforms,
+          }
+        }),
+        args.pluginOptions
+      )
     )
-  )
-    .then(() => callback())
-    .catch(err => callback(err))
+
+    await breath()
+    callback()
+  } catch (err) {
+    await breath()
+    callback(err)
+  }
 }, 1)
 
 /**
