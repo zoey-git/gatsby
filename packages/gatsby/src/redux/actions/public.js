@@ -20,6 +20,7 @@ const { getCommonDir } = require(`../../utils/path`)
 const apiRunnerNode = require(`../../utils/api-runner-node`)
 const { trackCli } = require(`gatsby-telemetry`)
 const { getNonGatsbyCodeFrame } = require(`../../utils/stack-trace-utils`)
+const normalizeFilePath = require(`../../utils/normalize-file-path`)
 
 /**
  * Memoize function used to pick shadowed page components to avoid expensive I/O.
@@ -32,14 +33,6 @@ const shadowCreatePagePath = _.memoize(
 )
 
 const actions = {}
-const isWindows = platform() === `win32`
-
-const ensureWindowsDriveIsUppercase = filePath => {
-  const segments = filePath.split(`:`).filter(s => s !== ``)
-  return segments.length > 0
-    ? segments.shift().toUpperCase() + `:` + segments.join(`:`)
-    : filePath
-}
 
 const findChildren = initialChildren => {
   const children = [...initialChildren]
@@ -308,9 +301,7 @@ ${reservedFields.map(f => `  * "${f}"`).join(`\n`)}
         trueComponentPath = slash(trueCasePathSync(relativePath, commonDir))
       }
 
-      if (isWindows) {
-        page.component = ensureWindowsDriveIsUppercase(page.component)
-      }
+      page.component = normalizeFilePath(page.component)
 
       if (trueComponentPath !== page.component) {
         if (!hasWarnedForPageComponentInvalidCasing.has(page.component)) {

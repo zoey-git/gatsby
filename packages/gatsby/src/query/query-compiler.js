@@ -8,7 +8,6 @@
 const _ = require(`lodash`)
 
 const path = require(`path`)
-const normalize = require(`normalize-path`)
 const glob = require(`glob`)
 
 const {
@@ -42,6 +41,7 @@ const {
   locInGraphQlToLocInFile,
 } = require(`./error-parser`)
 const websocketManager = require(`../utils/websocket-manager`)
+const normalizeFilePath = require(`../utils/normalize-file-path`)
 
 const overlayErrorID = `graphql-compiler`
 
@@ -134,7 +134,10 @@ export const parseQueries = async ({
 
   files = files.filter(d => !d.match(/\.d\.ts$/))
 
-  files = files.map(normalize)
+  // It is important to use the same "normalizeFilePath" function here as in
+  // actions.createPage otherwise we may receive different paths and fail to dedupe properly
+  // (i.e. different case for windows drive letter)
+  files = files.map(normalizeFilePath)
 
   // We should be able to remove the following and preliminary tests do suggest
   // that they aren't needed anymore since we transpile node_modules now
@@ -148,7 +151,7 @@ export const parseQueries = async ({
   // Otherwise the component will throw an error in the browser of
   // "graphql is not defined".
   files = files.concat(
-    Array.from(store.getState().components.keys(), c => normalize(c))
+    Array.from(store.getState().components.keys(), normalizeFilePath)
   )
 
   files = _.uniq(files)
